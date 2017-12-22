@@ -25,9 +25,9 @@ class DatabaseConnection:
             self.curAccount = self.account.cursor()
 
             #self.curFlight.execute("SELECT MAX(booking_id) FROM flight_booking;")
-            self.idFlight = 6 #list(self.curFlight.fetchall()[0])[0]+1
+            self.idFlight = 7 #list(self.curFlight.fetchall()[0])[0]+1
            # self.curHotel.execute("SELECT MAX(booking_id) FROM hotel_booking;")
-            self.idHotel = 4 #list(self.curHotel.fetchall()[0])[0]+1
+            self.idHotel = 5 #list(self.curHotel.fetchall()[0])[0]+1
         except:
             "Cannot connect ot database"
 
@@ -38,7 +38,7 @@ class DatabaseConnection:
         #self.curAccount.execute("SELECT * FROM account where client_name = 'Elsa' limit 1")
         #data = self.curAccount.fetchall()
         #account_id , client_name, amount= [1,'Nick',100]
-        account_id, client_name, amount = [2,'Elsa',50]
+        account_id, client_name, amount = [2,'Elsa',200]
 
         # creating booking commands
         flt_booking_command = 'INSERT INTO flight_booking(booking_id, client_name, flight_number, "from", "to", date) VALUES ('\
@@ -60,12 +60,14 @@ class DatabaseConnection:
 
 
         try:
-            self.curFlight.execute(flt_booking_command)
-            self.curHotel.execute(htl_booking_command)
-            self.curAccount.execute(funds_debiting_command)
 
+            self.curFlight.execute(flt_booking_command)
             self.flight.tpc_prepare()
+
+            self.curHotel.execute(htl_booking_command)
             self.hotel.tpc_prepare()
+
+            self.curAccount.execute(funds_debiting_command)
             self.account.tpc_prepare()
 
         except DatabaseError as exception:
@@ -74,9 +76,12 @@ class DatabaseConnection:
             self.hotel.tpc_rollback()
             self.account.tpc_rollback()
         else:
+
             self.flight.tpc_commit()
             self.hotel.tpc_commit()
             self.account.tpc_commit()
+
+
             print(flt_booking_command)
             print(htl_booking_command)
             print(funds_debiting_command)
@@ -99,5 +104,4 @@ class DatabaseConnection:
 if __name__ == '__main__':
     databaseConnection  = DatabaseConnection()
     databaseConnection.bookFlight()
-#    bookFlight(con1, con3)
 
