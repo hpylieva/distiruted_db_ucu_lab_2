@@ -1,4 +1,2 @@
 INSERT INTO public.flight_booking(booking_id, client_name, flight_number, "from", "to", date) VALUES (1, , ?, ?, ?, ?);
-UPDATE public.account
-	SET account_id=?, client_name=?, amount=?
-	WHERE <condition>;
+UPDATE public.account SET account_id=?, client_name=?, amount=? WHERE <condition>;

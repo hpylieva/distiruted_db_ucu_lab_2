@@ -31,7 +31,7 @@ class DatabaseConnection:
         except:
             "Cannot connect ot database"
 
-    def bookFlight(self):
+    def performBooking(self):
 
         # fetching a random person from the database
 
@@ -103,5 +103,5 @@ class DatabaseConnection:
 #--------------------BEGIN------------------------
 if __name__ == '__main__':
     databaseConnection  = DatabaseConnection()
-    databaseConnection.bookFlight()
+    databaseConnection.performBooking()
 
