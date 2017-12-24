@@ -25,9 +25,9 @@ class DatabaseConnection:
             self.curAccount = self.account.cursor()
 
             #self.curFlight.execute("SELECT MAX(booking_id) FROM flight_booking;")
-            self.idFlight = 7 #list(self.curFlight.fetchall()[0])[0]+1
+            self.idFlight = 17 #list(self.curFlight.fetchall()[0])[0]+1
            # self.curHotel.execute("SELECT MAX(booking_id) FROM hotel_booking;")
-            self.idHotel = 5 #list(self.curHotel.fetchall()[0])[0]+1
+            self.idHotel = 14 #list(self.curHotel.fetchall()[0])[0]+1
         except:
             "Cannot connect ot database"
 
@@ -76,20 +76,14 @@ class DatabaseConnection:
             self.hotel.tpc_rollback()
             self.account.tpc_rollback()
         else:
-
             self.flight.tpc_commit()
             self.hotel.tpc_commit()
             self.account.tpc_commit()
-
 
             print(flt_booking_command)
             print(htl_booking_command)
             print(funds_debiting_command)
 
-        # self.flight.commit()
-        # debiting funds
-
-        # self.account.commit()
 
 
         def __del__(self):
